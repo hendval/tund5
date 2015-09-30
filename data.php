@@ -7,6 +7,14 @@
 		header("Location: login.php");
 	}
 	
+	// kasutaja tahab välja logida
+	if(isset($_GET["logout"])){
+		// kustutame kõik session muutujad ja peateme sessiooni
+		session_destroy();
+		
+		header("Location: login.php");
+	}
+	
 ?>
 <p>
 	Tere, <?=$_SESSION["logged_in_user_email"];?>
