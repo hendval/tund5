@@ -7,6 +7,13 @@
 	// kõik session muutujad on kättesaadavad kuni viimase brauseri akna sulgemiseni
 	session_start();
 	
+	function cleanInput($data) {
+  	$data = trim($data);
+  	$data = stripslashes($data);
+  	$data = htmlspecialchars($data);
+  	return $data;
+	}
+  
 	// võtab andmed ja sisestab ab'i
 	function createUser($create_email, $hash){
 		$mysqli = new mysqli($GLOBALS["servername"], $GLOBALS["server_username"], $GLOBALS["server_password"], $GLOBALS["database"]);
@@ -40,6 +47,15 @@
 		//ei leidnud
 		echo "Email ja parool valed!";
 		}
+		$stmt->close();
+		$mysqli->close();
+	}
+	
+	function addCarPlate($number_plate, $color, $user_id){
+		$mysqli = new mysqli($GLOBALS["servername"], $GLOBALS["server_username"], $GLOBALS["server_password"], $GLOBALS["database"]);
+		$stmt = $mysqli->prepare("INSERT INTO car_plates (number_plate, color, user_id) VALUES (?,?,?)");
+		$stmt->bind_param("ssi", $number_plate, $color, $user_id);
+		$stmt->execute();
 		$stmt->close();
 		$mysqli->close();
 	}
