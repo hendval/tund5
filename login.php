@@ -2,6 +2,12 @@
 	// võütame funktsioonid kaasa yo
 	require_once("functions.php");
 
+	// kui kasutaja on sisse loginud
+	// siis suunan data.php lehele
+	if(isset($_SESSION["logged_in_user_id"])){
+		header("Location: data.php");
+	}
+	
   // muuutujad errorite jaoks
 	$email_error = "";
 	$password_error = "";
@@ -42,18 +48,11 @@
 				$hash = hash("sha512", $password);
 
 				// kasutaja sisselogimise fn failist functions.php
-				loginUser();
-				
-				
-				//kontrollin kas tulemusi leiti
-				
-				
-			
-				
+				loginUser($email, $hash);		
 			}
 
-		} // login if end
-
+		}
+	}
     // *********************
     // ** LOO KASUTAJA *****
     // *********************
@@ -76,18 +75,13 @@
 			}
 
 			if(	$create_email_error == "" && $create_password_error == ""){
-				
 				$hash = hash("sha512", $create_password);
+				echo "Kasutaja registreeritud Kasutajanimi on ".$create_email." ja räsi on ".$hash;
 				
 				// kasutaja loomise fn failist functions.php
-				createUser();
-				
-
-      }
-
-    } // create if end
-
-	}
+				createUser($create_email, $hash);
+			}
+    }
 
   // funktsioon, mis eemaldab kõikvõimaliku üleliigse tekstist
   function cleanInput($data) {
