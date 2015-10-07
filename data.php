@@ -31,9 +31,15 @@
 		}else{
 			$color = cleanInput($_POST["color"]);
 		}
-		if ($number_plate_error == "" and $color_error == "")
-			echo "Lisati number ".$number_plate." ja värv ".$color." ja id ".$_SESSION["logged_in_user_id"];
-			addCarPlate($number_plate, $color, $_SESSION["logged_in_user_id"]);	
+		if ($number_plate_error == "" and $color_error == ""){
+			$msg = addCarPlate($number_plate, $color, $_SESSION["logged_in_user_id"]);	
+		
+			if($msg != ""){
+				$number_plate = "";
+				$color = "";
+				echo $msg;
+			}
+		}
 	}
 	
 	

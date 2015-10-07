@@ -55,7 +55,19 @@
 		$mysqli = new mysqli($GLOBALS["servername"], $GLOBALS["server_username"], $GLOBALS["server_password"], $GLOBALS["database"]);
 		$stmt = $mysqli->prepare("INSERT INTO car_plates (number_plate, color, user_id) VALUES (?,?,?)");
 		$stmt->bind_param("ssi", $number_plate, $color, $user_id);
-		$stmt->execute();
+		
+		//sõnum
+		$message = "";
+		
+		if($stmt->execute()){
+			$message = "Sai edukalt lisatud!";
+			
+		}else{
+			echo $stmt->error;
+		}
+		
+		return $message;
+
 		$stmt->close();
 		$mysqli->close();
 	}
